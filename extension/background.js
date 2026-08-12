@@ -1,4 +1,4 @@
-// Twitch Auto Claim Points — Background service worker
+// Twitch Auto Claim Points — Background service worker 
 // Single writer for claim counts (avoids multi-tab races)
 
 function normalize(obj) {
@@ -43,3 +43,4 @@ chrome.runtime.onMessage.addListener((req, _sender, sendResponse) => {
   });
   return true;
 });
+// Made by Red0X
