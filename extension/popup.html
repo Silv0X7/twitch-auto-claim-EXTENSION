@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Twitch Auto Claim Points</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <img class="icon" src="images/icon128.png" width="40" height="40" alt="" />
+      <div>
+        <h1>Auto Claim Points</h1>
+        <p class="ver">v2.3.0</p>
+      </div>
+    </header>
+
+    <section class="card">
+      <div class="row">
+        <span>Status</span>
+        <span class="badge" id="statusBadge">ON</span>
+      </div>
+      <div class="row">
+        <span>Total claims</span>
+        <strong id="totalClaims">0</strong>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-title">
+        <span>Per channel</span>
+        <button id="clearBtn" class="link-btn">Clear</button>
+      </div>
+      <div id="list" class="list">
+        <div class="empty">No claims yet</div>
+      </div>
+    </section>
+
+    <p class="hint">
+      Settings also available in chat — look for the button next to Channel Points.
+    </p>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+/* Twitch Auto Claim Points — injected UI (7TV-style) */
+
+#tac-settings-btn {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px;
+  margin-left: 4px;
+  margin-right: 2px;
+  padding: 0;
+  border: none !important;
+  border-radius: 4px;
+  background: transparent !important;
+  color: #adadb8 !important;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+  flex-shrink: 0;
+  vertical-align: middle;
+  position: relative;
+  z-index: 10;
+}
+
+#tac-settings-btn:hover {
+  color: #9146FF !important;
+  background: rgba(145, 70, 255, 0.18) !important;
+}
+
+#tac-settings-btn.active {
+  color: #9146FF !important;
+}
+
+#tac-settings-btn.disabled-mode {
+  opacity: 0.45;
+}
+
+#tac-settings-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+  pointer-events: none;
+}
+
+#tac-btn-wrap {
+  display: inline-flex !important;
+  align-items: center;
+  margin-left: 4px;
+}
+
+/* Settings panel */
+#tac-panel {
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  margin-bottom: 8px;
+  width: 270px;
+  background: #18181b;
+  border: 1px solid #3a3a3d;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  z-index: 99999;
+  font-family: Inter, Roobert, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #efeff1;
+  overflow: hidden;
+  animation: tac-fade-in 0.15s ease;
+}
+
+@keyframes tac-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+#tac-panel .tac-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid #2f2f35;
+  background: #1f1f23;
+}
+
+#tac-panel .tac-header-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #9146FF;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+#tac-panel .tac-close {
+  background: none;
+  border: none;
+  color: #adadb8;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+#tac-panel .tac-close:hover {
+  color: #efeff1;
+  background: #3a3a45;
+}
+
+#tac-panel .tac-body {
+  padding: 10px 14px 14px;
+}
+
+#tac-panel .tac-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 13px;
+}
+
+#tac-panel .tac-row + .tac-row {
+  border-top: 1px solid #2f2f35;
+}
+
+#tac-panel .tac-label { color: #efeff1; }
+#tac-panel .tac-hint {
+  font-size: 11px;
+  color: #6b6b75;
+  margin-top: 2px;
+}
+
+.tac-switch {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  flex-shrink: 0;
+}
+.tac-switch input { opacity: 0; width: 0; height: 0; }
+.tac-slider {
+  position: absolute;
+  inset: 0;
+  background: #3a3a45;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.tac-slider::before {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: 2px;
+  top: 2px;
+  background: #efeff1;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+.tac-switch input:checked + .tac-slider { background: #9146FF; }
+.tac-switch input:checked + .tac-slider::before { transform: translateX(16px); }
+
+#tac-panel .tac-stats {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #2f2f35;
+  font-size: 12px;
+  color: #adadb8;
+}
+#tac-panel .tac-stats strong {
+  color: #9146FF;
+  font-weight: 700;
+}
+
+/* ========== Mini Hype Train claim animation ========== */
+#tac-hype {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2147483646;
+  overflow: hidden;
+}
+
+.tac-hype-banner {
+  position: absolute;
+  left: 50%;
+  top: 18%;
+  transform: translateX(-50%) scale(0.6);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, rgba(145, 70, 255, 0.95), rgba(90, 40, 180, 0.95));
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 14px;
+  box-shadow:
+    0 0 0 2px rgba(145, 70, 255, 0.35),
+    0 12px 40px rgba(0, 0, 0, 0.45),
+    0 0 60px rgba(145, 70, 255, 0.4);
+  opacity: 0;
+  animation: tac-banner-in 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2) forwards,
+             tac-banner-out 0.4s ease 2.2s forwards;
+}
+
+.tac-hype-banner-icon {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
+  animation: tac-icon-bob 0.6s ease infinite alternate;
+}
+
+.tac-hype-title {
+  font-family: Inter, Roobert, "Segoe UI", system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.35);
+}
+
+.tac-hype-sub {
+  font-family: Inter, Roobert, "Segoe UI", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 2px;
+}
+
+.tac-hype-para {
+  position: absolute;
+  top: -80px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
+  animation-name: tac-para-fall;
+  animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+  animation-fill-mode: forwards;
+  opacity: 0;
+}
+
+.tac-hype-spark {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #c4a0ff;
+  box-shadow: 0 0 8px 2px rgba(145, 70, 255, 0.8);
+  opacity: 0;
+  animation: tac-spark 1.2s ease-out forwards;
+}
+
+@keyframes tac-banner-in {
+  0% { opacity: 0; transform: translateX(-50%) scale(0.5) translateY(12px); }
+  100% { opacity: 1; transform: translateX(-50%) scale(1) translateY(0); }
+}
+
+@keyframes tac-banner-out {
+  to { opacity: 0; transform: translateX(-50%) scale(0.9) translateY(-10px); }
+}
+
+@keyframes tac-icon-bob {
+  from { transform: translateY(0); }
+  to { transform: translateY(-4px); }
+}
+
+@keyframes tac-para-fall {
+  0% {
+    opacity: 0;
+    transform: translateY(0) rotate(var(--rot, 0deg)) scale(0.5);
+  }
+  12% { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform: translateY(110vh) rotate(calc(var(--rot, 0deg) + 25deg)) scale(1);
+  }
+}
+
+@keyframes tac-spark {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.4);
+  }
+  20% { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx, 0), var(--dy, -60px)) scale(1.2);
+  }
+}
